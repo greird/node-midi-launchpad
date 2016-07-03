@@ -291,7 +291,7 @@ Launchpad.prototype.displayString = function(str, delay, callback, color) {
 Launchpad.prototype.scrollString = function(str,delay, color, onFinished) {
 	var bytes = [];
 	for(var i = 0; i < str.length; i++) {
-		bytes.push(LawrenceSans(str[i]));
+		bytes.push(LawrenceSans[str[i]]);
 		bytes.push(["0","0","0","0","0","0","0","0"]);
 	}
 	this.scrollBytes(bytes, delay, color, onFinished);
