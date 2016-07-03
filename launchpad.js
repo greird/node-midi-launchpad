@@ -8,7 +8,7 @@ var midi = require('midi');
  * Launchpad
  * Represents the launchpad as a whole
  */
-var Launchpad = function(port, initAnimation) {
+ var Launchpad = function(port, initAnimation) {
     if (initAnimation === undefined) initAnimation = true;
     var name = 0;
     var row = 0;
@@ -63,7 +63,7 @@ var Launchpad = function(port, initAnimation) {
     /*
      * Gets a button object from this._grid
      */
-    this.getButton = function(x, y) {
+     this.getButton = function(x, y) {
         if (y === undefined) {
             y = Math.floor(x/16);
             x = x % 16;
@@ -83,7 +83,7 @@ var Launchpad = function(port, initAnimation) {
     /*
      * Turns all LEDs off
      */
-    this.allDark = function() {
+     this.allDark = function() {
         // Reset the state on all buttons
         for(var x = 0; x < 9; x++) {
             for(var y = 0; y < 9; y++) {
@@ -97,7 +97,7 @@ var Launchpad = function(port, initAnimation) {
     /*
      * Turns all LEDs on
      */
-    this.allLight = function(color) {
+     this.allLight = function(color) {
         // Reset the state on all buttons
         for(var x = 0; x < 9; x++) {
             for(var y = 0; y < 9; y++) {
@@ -109,7 +109,7 @@ var Launchpad = function(port, initAnimation) {
     /*
      * Event handler for button press
      */
-    this.receiveMessage = function(deltaTime, msg) {
+     this.receiveMessage = function(deltaTime, msg) {
         // We have to do something special for the top buttons
         var button = that.getButton(msg[1]);
         if(msg[0] == "176")
@@ -150,11 +150,11 @@ var Launchpad = function(port, initAnimation) {
             },0);
             return;
         }
+    };
 
-        var colors = [
-            3, 48, 18, 49, 0
-        ];
-
+    this.fancyAnim = function () {
+        var colors = [3, 48, 18, 49, 0];
+        
         for (var j = 0; j < colors.length;j++) {
             var i = colors[j];
             (function(i){
@@ -182,11 +182,10 @@ var Launchpad = function(port, initAnimation) {
         }
     };
 
-
     this.ready = false;
     this.init = function() {
             // Set up a new output.
-        this.output = new midi.output();
+            this.output = new midi.output();
         // Set up a new input.
         this.input = new midi.input();
 
@@ -212,33 +211,33 @@ var Launchpad = function(port, initAnimation) {
 };
 
 Launchpad.prototype.renderByte = function(x, y, color, byte) {
-  
+
     byte = byte.toLowerCase();
     switch (byte) {
         case '1':
-            break;
+        break;
         case 'r':
-            color = exports.colors.red.high;
-            break;  
+        color = exports.colors.red.high;
+        break;  
         case 'o':
-            color = exports.colors.orange.high;
-            break;
+        color = exports.colors.orange.high;
+        break;
         case 'y':
-            color = exports.colors.yellow.high;
-            break;
+        color = exports.colors.yellow.high;
+        break;
         case 'g':
-            color = exports.colors.green.high;
-            break;
+        color = exports.colors.green.high;
+        break;
         default:
-            color = exports.colors.off;
-            break;
+        color = exports.colors.off;
+        break;
     } 
     this._grid[y][x].light(color);
 };
 
 Launchpad.prototype.renderBytes = function(bytes, color) {
     if (bytes === undefined) return;
-        for (var x = 0; x < bytes.length; x++) {
+    for (var x = 0; x < bytes.length; x++) {
         var byt = bytes[x];
         for (var y = 0; y < byt.length; y++) {
             if (!this._grid[y][x]) {
@@ -263,9 +262,9 @@ Launchpad.prototype.displayString = function(str, delay, callback, color) {
       setTimeout(function() {
         that.displayCharacter(str[j], color);
         if (j+1 === str.length && callback !== undefined) setTimeout(callback, delay);
-      }, j*delay);
-    })(j);
-  }
+    }, j*delay);
+  })(j);
+}
 };
 
 Launchpad.prototype.scrollString = function(str,delay, color, onFinished) {
