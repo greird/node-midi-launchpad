@@ -270,7 +270,8 @@ Launchpad.prototype.renderBytes = function(bytes, color) {
 };
 
 Launchpad.prototype.displayCharacter = function(letter, color) {
-	var bytes = LawrenceSans(letter);
+	if (isNaN(letter)) letter = letter.toLowerCase();
+	var bytes = LawrenceSans[letter];
 	this.renderBytes(bytes, color);
 };
 
