@@ -16,13 +16,17 @@ npm install midi-launchpad
 Usage
 -----
 ```js
-var midiConnector = require('midi-launchpad').connect(midiport);
+var midiConnector = require('midi-launchpad').connect();
 
 // wait for the connector to be ready
 midiConnector.on("ready",function(launchpad) {
   console.log("Launchpad ready, let's do something");
 });
 ```
+
+You can also manualy specify the midiport if needed: ```var midiConnector = require('midi-launchpad').connect(midiport);```
+Note that ```midiport``` should be an integer. 
+
 Colors
 ------
 
@@ -39,6 +43,8 @@ Colors
 - launchpad.colors.yellow.low;
 - launchpad.colors.yellow.medium;
 - launchpad.colors.yellow.high;
+
+You can also call for a random color : ```launchpad.randomColor()```
 
 Functions
 ---------
@@ -58,6 +64,11 @@ display a chatacter on the launchpad
 launchpad.displayCharacter("S", color);
 ```
 
+display a mini digit the left or right side of the launchpad
+```js
+launchpad.displayDigit(5, color, position); // position should be "left" or "right"
+```
+
 display a string by flashing between the characters
 ```js
 launchpad.displayString("@sydlawrence", color);
@@ -65,11 +76,12 @@ launchpad.displayString("@sydlawrence", color);
 
 use the launchpad as a scrolling display
 ```js
-launchpad.scrollString("@sydlawrence", color);
+launchpad.scrollString("@sydlawrence", delay, color);
 ```
 
 render specific colors in specific buttons all at once
-- 0 or " " for "off"
+- " " to keep the state of the LED unchanged
+- 0 tu turn it "off"
 - y for yellow
 - r for red
 - g for green
