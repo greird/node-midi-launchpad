@@ -230,32 +230,35 @@ var midi = require('midi');
 	this.init();
 };
 
-Launchpad.prototype.renderByte = function(x, y, color, byte) {
-
+Launchpad.prototype.renderByte = function(x, y, color, byte, clear) {
 	byte = byte.toLowerCase();
 	switch (byte) {
 		case '1':
 		break;
 		case 'r':
-		color = exports.colors.red.high;
+			color = exports.colors.red.high;
 		break;  
 		case 'o':
-		color = exports.colors.orange.high;
+			color = exports.colors.orange.high;
 		break;
 		case 'y':
-		color = exports.colors.yellow.high;
+			color = exports.colors.yellow.high;
 		break;
 		case 'g':
-		color = exports.colors.green.high;
+			color = exports.colors.green.high;
+		break;
+		case '0':
+			color = exports.colors.off;
 		break;
 		default:
-		color = exports.colors.off;
+			color = this._grid[y][x].getState();
 		break;
-	} 
+	}
 	this._grid[y][x].light(color);
 };
 
-Launchpad.prototype.renderBytes = function(bytes, color) {
+Launchpad.prototype.renderBytes = function(bytes, color, clear) {
+	if(clear != false) clear = true;
 	if (bytes === undefined) return;
 	for (var x = 0; x < bytes.length; x++) {
 		var byt = bytes[x];
@@ -264,7 +267,7 @@ Launchpad.prototype.renderBytes = function(bytes, color) {
 				console.log("Button not found: x:"+x+", y:"+y);
 				return;
 			}
-			this.renderByte(x, y, color,  byt[y]);
+			this.renderByte(x, y, color, byt[y], clear);
 		}
 	}
 };
@@ -272,13 +275,13 @@ Launchpad.prototype.renderBytes = function(bytes, color) {
 Launchpad.prototype.displayCharacter = function(letter, color) {
 	if (isNaN(letter)) letter = letter.toLowerCase();
 	var bytes = LawrenceSans[letter];
-	this.renderBytes(bytes, color);
+	this.renderBytes(bytes, color, true);
 };
 
 Launchpad.prototype.displayDigit = function(digit, color, position) {
 	if (position === "right") var bytes = LawrenceSans.rightDigit[digit];
 	else var bytes = LawrenceSans.leftDigit[digit];
-	this.renderBytes(bytes, color);
+	this.renderBytes(bytes, color, false);
 };
 
 Launchpad.prototype.displayString = function(str, delay, callback, color) {
