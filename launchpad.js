@@ -275,6 +275,12 @@ Launchpad.prototype.displayCharacter = function(letter, color) {
 	this.renderBytes(bytes, color);
 };
 
+Launchpad.prototype.displayDigit = function(digit, color, position) {
+	if (position === "right") var bytes = LawrenceSans.rightDigit[digit];
+	else var bytes = LawrenceSans.leftDigit[digit];
+	this.renderBytes(bytes, color);
+};
+
 Launchpad.prototype.displayString = function(str, delay, callback, color) {
 	if (delay === undefined) delay = 500;
 	var that = this;
