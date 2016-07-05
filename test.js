@@ -1,4 +1,4 @@
-var midiConnector = require('./launchpad').connect();
+var midiConnector = require('../node-midi-launchpad').connect();
 
 var launchpad = midiConnector.on('ready');
 
